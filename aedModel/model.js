@@ -28,6 +28,9 @@ const aedModelSchema = new mongoose.Schema({
         aedMarket: [productSchema],
         firstAidMarket: [productSchema],
     },
+    videos: {
+        main: { type: String, default: null },
+    },
 })
 
 // Duplicate the ID field.
