@@ -11,6 +11,8 @@ const User = require('./user/model')
 const Aed = require('./aed/model')
 const AedModel = require('./aedModel/model')
 const AedMake = require('./aedMake/model')
+const Order = require('./order/model')
+const QboCredentials = require('./qbo/model')
 const { composeMongoose } = require('graphql-compose-mongoose')
 const { schemaComposer } = require('graphql-compose')
 //wrapping the whole thing in a self-executing function to await
@@ -138,6 +140,26 @@ const { schemaComposer } = require('graphql-compose')
 
     schemaComposer.Mutation.addFields({
         aedMakeCreateOne: AedMakeTC.mongooseResolvers.createOne(),
+    })
+
+    const OrderTC = composeMongoose(Order, customizationOptions)
+    schemaComposer.Query.addFields({
+        orderOne: OrderTC.mongooseResolvers.findOne(),
+        orderMany: OrderTC.mongooseResolvers.findMany(),
+    })
+
+    schemaComposer.Mutation.addFields({
+        orderUpdateById: OrderTC.mongooseResolvers.updateById(),
+        orderCreateMany: OrderTC.mongooseResolvers.createMany(),
+    })
+
+    const QboCredentialsTC = composeMongoose(QboCredentials, customizationOptions)
+    schemaComposer.Query.addFields({
+        qboCredentialsOne: QboCredentialsTC.mongooseResolvers.findOne(),
+    })
+
+    schemaComposer.Mutation.addFields({
+        qboCredentialsUpdateOne: QboCredentialsTC.mongooseResolvers.updateOne(),
     })
 
     /*
